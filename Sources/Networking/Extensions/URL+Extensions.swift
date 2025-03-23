@@ -16,13 +16,13 @@ extension URL {
     func merging(queryItems: [URLQueryItem], uniquingKeysWith combine: (String, String) -> String) -> URL {
         var components = URLComponents(url: self, resolvingAgainstBaseURL: false)
 
-        let newQueryItems = (components?.percentEncodedQueryItems ?? [])
+        let newQueryItems = (components?.queryItems ?? [])
             .asDictionary
             .merging(queryItems.asDictionary) { $1 }
             .map { URLQueryItem(name: $0.key, value: $0.value) }
 
         if !newQueryItems.isEmpty {
-            components?.percentEncodedQueryItems = newQueryItems
+            components?.queryItems = newQueryItems
         }
 
         return components?.url ?? self
